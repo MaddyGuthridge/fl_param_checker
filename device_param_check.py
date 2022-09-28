@@ -1,5 +1,5 @@
 # name=Param Checker
-# url=TODO
+# url=https://forum.image-line.com/viewtopic.php?f=1994&t=288108&p=1771223
 """
 # FL Plugin Param Checker Device
 
@@ -27,5 +27,5 @@ def OnIdle():
 print()
 print("To use the Param Checker device, call ")
 print("pluginParamCheck(index) or")
-print("pluginParamCheck(index, slot_index")
+print("pluginParamCheck(index, slot_index)")
 print()
