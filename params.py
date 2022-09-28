@@ -30,10 +30,10 @@ def pluginParamCheck(index: int, slot_index: 'int | None' = None):
     Start a check for parameter indexes on the given plugin
     """
     global target
+    print("[FL Param Checker]")
     t = (index,) if slot_index is None else (index, slot_index)
     # Check that the plugin actually exists
     if not plugins.isValid(*t):
-        print("[FL Param Checker]")
         print(f"Can't check for parameter changes on plugin at index `{t}`")
         print()
         print("Please check that the a plugin exists at this index, and")
@@ -44,6 +44,13 @@ def pluginParamCheck(index: int, slot_index: 'int | None' = None):
 
     # Otherwise, let's track that plugin
     target = t
+    name = plugins.getPluginName(*target)
+    if slot_index is None:
+        user_name = plugins.getPluginName(index, -1, 1)
+    else:
+        user_name = plugins.getPluginName(index, slot_index, 1)
+    print(f"Listening for parameter tweaks on '{name}' ('{user_name}')...")
+    print()
     return ''
 
 
