@@ -20,5 +20,12 @@ __all__ = [
 from params import idleCallback, pluginParamCheck
 
 
-def OnInit():
+def OnIdle():
     idleCallback()
+
+
+print()
+print("To use the Param Checker device, call ")
+print("pluginParamCheck(index) or")
+print("pluginParamCheck(index, slot_index")
+print()
