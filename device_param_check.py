@@ -25,7 +25,9 @@ def OnIdle():
 
 
 print()
-print("To use the Param Checker device, call ")
-print("pluginParamCheck(index) or")
+print("To use the Param Checker device, call")
+print("pluginParamCheck(index), or")
 print("pluginParamCheck(index, slot_index)")
+print("Specify keep_alive=True to listen indefinitely")
+print("And call pluginParamCheck() with no args to stop listening")
 print()
