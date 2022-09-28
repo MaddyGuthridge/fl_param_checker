@@ -49,6 +49,9 @@ def startListening(t: "tuple[int, ...]", keep_alive: bool):
     else:
         user_name = f" ('{user_name}')"
     print(f"Listening for parameter tweaks on '{name}'{user_name}...")
+    if keep_alive:
+        print("Listening indefinitely. Call pluginParamCheck() with no args to"
+              " stop")
     print()
 
 
