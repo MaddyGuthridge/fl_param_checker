@@ -44,3 +44,12 @@ To include this code within your own script, use the following instructions.
    plugin links more than one parameter together), all of them will be printed.
 
 4. Repeat as necessary.
+
+It is also possible to listen for parameter tweaks infinitely, by specifying
+the `keep_alive` parameter as `True`. If the checker is listening indefinitely,
+it can be stopped by calling `pluginParamCheck()` with no arguments.
+
+## Known Issues
+
+Closing FL Studio or reloading the script while it is listening for parameter
+tweaks will cause FL Studio to crash.

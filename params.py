@@ -17,6 +17,9 @@ import plugins
 # Target plugin
 target: 'tuple[int, ...] | None' = None
 
+# Whether to keep listening, even when we find a plugin
+daemon = False
+
 # Param dictionary to store previous values in
 params: dict[int, float] = {}
 
@@ -25,12 +28,60 @@ tick = 0
 TICK_FREQUENCY = 10
 
 
-def pluginParamCheck(index: int, slot_index: 'int | None' = None):
+def startListening(t: "tuple[int, ...]", keep_alive: bool):
+    """
+    Start listening for parameter tweaks
+    """
+    global target, daemon
+    target = t
+    daemon = keep_alive
+
+    name = plugins.getPluginName(*target)
+    # Get the user's name of the plugin
+    if len(t) == 1:
+        user_name = plugins.getPluginName(t[0], -1, 1)
+    else:
+        user_name = plugins.getPluginName(t[0], t[1], 1)
+    # If the user's name is the same, don't show it, otherwise, format it
+    # nicely
+    if name == user_name:
+        user_name = ""
+    else:
+        user_name = f" ('{user_name}')"
+    print(f"Listening for parameter tweaks on '{name}'{user_name}...")
+    print()
+
+
+def stopListening():
+    """
+    Stop listening for parameter tweaks
+    """
+    global target
+    target = None
+    print("Stopped listening for parameter tweaks")
+
+
+def pluginParamCheck(
+    index: "int | None" = None,
+    slot_index: "int | None" = None,
+    keep_alive: bool = False,
+):
     """
     Start a check for parameter indexes on the given plugin
     """
-    global target
+    global target, daemon
     print("[FL Param Checker]")
+    # If we're given no args, disable listening if possible
+    if index is None:
+        if target is not None:
+            stopListening()
+            return ""
+        else:
+            print("To stop listening for parameter tweaks, you must start "
+                  "listening first")
+            return ""
+
+    # Otherwise, start listening
     t = (index,) if slot_index is None else (index, slot_index)
     # Check that the plugin actually exists
     if not plugins.isValid(*t):
@@ -40,18 +91,15 @@ def pluginParamCheck(index: int, slot_index: 'int | None' = None):
         print("remember that FL Studio requires group indexes on the channel")
         print("rack.")
         print()
-        return ''
+        return ""
 
-    # Otherwise, let's track that plugin
-    target = t
-    name = plugins.getPluginName(*target)
-    if slot_index is None:
-        user_name = plugins.getPluginName(index, -1, 1)
-    else:
-        user_name = plugins.getPluginName(index, slot_index, 1)
-    print(f"Listening for parameter tweaks on '{name}' ('{user_name}')...")
-    print()
-    return ''
+    # If we've already got a target, stop listening to that
+    if target is not None:
+        stopListening()
+
+    # Start listening to the new target
+    startListening(t, keep_alive)
+    return ""
 
 
 def idleCallback():
@@ -85,11 +133,11 @@ def idleCallback():
         return
 
     print("[FL Param Checker]")
-    print(f"Found tweaked parameter{'s' if len(changed_indexes) == 1 else ''}")
+    print(f"Found tweaked parameter{'s' if len(changed_indexes) != 1 else ''}")
     for i in changed_indexes:
         name = plugins.getParamName(i, *target)
         print(f"{i:4}: {name}")
 
     print()
-    params.clear()
-    target = None
+    if not daemon:
+        stopListening()
