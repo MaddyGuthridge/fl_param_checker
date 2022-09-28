@@ -1,6 +1,6 @@
 # fl_param_checker
-A component that can be easily added into any MIDI script in order to make it
-easy to determine plugin parameter indexes and names.
+
+A tool to help find plugin parameter indexes to assist with MIDI Controller Script development.
 
 ## Installation
 
