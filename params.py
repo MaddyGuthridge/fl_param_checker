@@ -7,6 +7,8 @@ Refer to README.md for usage.
 
 This code is free and open source under the MIT license. Refer to the LICENSE
 file for details.
+
+(c) 2022 Miguel Guthridge
 """
 
 import plugins
@@ -37,10 +39,11 @@ def pluginParamCheck(index: int, slot_index: 'int | None'):
         print("Please check that the a plugin exists at this index, and")
         print("remember that FL Studio requires group indexes on the channel")
         print("rack.")
-        return
+        return ''
 
     # Otherwise, let's track that plugin
     target = t
+    return ''
 
 
 def idleCallback():
@@ -74,7 +77,7 @@ def idleCallback():
         return
 
     print("[FL Param Checker]")
-    print("Found tweaked parameters")
+    print(f"Found tweaked parameter{'s' if len(changed_indexes) == 1 else ''}")
     for i in changed_indexes:
         name = plugins.getParamName(i, *target)
         print(f"{i:4}: {name}")
