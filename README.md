@@ -18,7 +18,7 @@ To install this as a standalone script, use the following instructions.
 To include this code within your own script, use the following instructions.
 
 1. If you're using Git, add this as a git submodule.
-   `$ git submodule add git@github.com:MiguelGuthridge/fl_param_checker.git [output folder]`
+   `$ git submodule add git@github.com:MiguelGuthridge/fl_param_checker.git [output folder]/fl_param_checker`
 
    Otherwise, copy this entire folder into your code (make sure to include the
    LICENSE file).
