@@ -61,6 +61,7 @@ def stopListening():
     """
     global target
     target = None
+    params.clear()
     print("Stopped listening for parameter tweaks")
 
 
