@@ -63,6 +63,7 @@ def stopListening():
     target = None
     params.clear()
     print("Stopped listening for parameter tweaks")
+    print()
 
 
 def pluginParamCheck(
