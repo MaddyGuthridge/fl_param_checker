@@ -52,4 +52,6 @@ it can be stopped by calling `pluginParamCheck()` with no arguments.
 ## Known Issues
 
 Closing FL Studio or reloading the script while it is listening for parameter
-tweaks will cause FL Studio to crash.
+tweaks will cause FL Studio to freeze. It eventually does start responding 
+again, but only after a minute or so depending on how long you've been 
+listening for changes for.
