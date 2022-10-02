@@ -17,10 +17,7 @@ __all__ = [
     'pluginParamCheck',
 ]
 
-try:
-    from params import idleCallback, pluginParamCheck
-except ImportError:
-    from .params import idleCallback, pluginParamCheck
+from params import idleCallback, pluginParamCheck  # type: ignore
 
 
 def OnIdle():
