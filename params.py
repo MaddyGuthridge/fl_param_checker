@@ -82,8 +82,16 @@ def pluginParamCheck(
             stopListening()
             return ""
         else:
-            print("To stop listening for parameter tweaks, you must start "
-                  "listening first")
+            print("To start listening for parameter tweaks, call ")
+            print("pluginParamCheck() with the index of the plugin as the")
+            print("args. For example:")
+            print("    pluginParamCheck(0)  # start listening to channel 1 on "
+                  "the channel rack")
+            print("    pluginParamCheck(1, 5)  # start listening slot 4 of "
+                  "track 1 on the mixer")
+            print("To listen for changes indefinitely, use the flag "
+                  "keep_alive=True in your call, for example:")
+            print("    pluginParamCheck(0, keep_alive=True")
             return ""
 
     # Otherwise, start listening
