@@ -15,7 +15,7 @@ import plugins
 
 
 # Target plugin
-target: 'tuple[int, ...] | None' = None
+target: 'tuple[int] | tuple[int, int] | None' = None
 
 # Whether to keep listening, even when we find a plugin
 daemon = False
@@ -28,7 +28,7 @@ tick = 0
 TICK_FREQUENCY = 10
 
 
-def startListening(t: "tuple[int, ...]", keep_alive: bool):
+def startListening(t: "tuple[int] | tuple[int, int]", keep_alive: bool):
     """
     Start listening for parameter tweaks
     """
@@ -39,9 +39,10 @@ def startListening(t: "tuple[int, ...]", keep_alive: bool):
     name = plugins.getPluginName(*target)
     # Get the user's name of the plugin
     if len(t) == 1:
-        user_name = plugins.getPluginName(t[0], -1, 1)
+        user_name = plugins.getPluginName(t[0], -1, True)
     else:
-        user_name = plugins.getPluginName(t[0], t[1], 1)
+        track, slot = t  # type: ignore
+        user_name = plugins.getPluginName(track, slot, True)
     # If the user's name is the same, don't show it, otherwise, format it
     # nicely
     if name == user_name:
@@ -95,7 +96,11 @@ def pluginParamCheck(
             return ""
 
     # Otherwise, start listening
-    t = (index,) if slot_index is None else (index, slot_index)
+    t: 'tuple[int] | tuple[int, int]' = (
+        (index,)
+        if slot_index is None
+        else (index, slot_index)
+    )
     # Check that the plugin actually exists
     if not plugins.isValid(*t):
         print(f"Can't check for parameter changes on plugin at index `{t}`")
