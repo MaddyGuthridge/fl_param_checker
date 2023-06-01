@@ -92,7 +92,7 @@ def pluginParamCheck(
                   "track 1 on the mixer")
             print("To listen for changes indefinitely, use the flag "
                   "keep_alive=True in your call, for example:")
-            print("    pluginParamCheck(0, keep_alive=True")
+            print("    pluginParamCheck(0, keep_alive=True)")
             return ""
 
     # Otherwise, start listening
@@ -108,6 +108,8 @@ def pluginParamCheck(
         print("Please check that the a plugin exists at this index, and")
         print("remember that FL Studio requires group indexes on the channel")
         print("rack.")
+        print()
+        print("Note that audio clips are not valid plugins.")
         print()
         return ""
 
