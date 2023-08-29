@@ -67,59 +67,78 @@ def stopListening():
     print()
 
 
-def pluginParamCheck(
-    index: "int | None" = None,
-    slot_index: "int | None" = None,
-    keep_alive: bool = False,
-):
+class __PluginParamCheck:
     """
-    Start a check for parameter indexes on the given plugin
+    Use a class to allow for documentation to be displayed even if the user
+    doesn't call the function correctly.
     """
-    global target, daemon
-    print("[FL Param Checker]")
-    # If we're given no args, disable listening if possible
-    if index is None:
-        if target is not None:
-            stopListening()
-            return ""
-        else:
-            print("To start listening for parameter tweaks, call ")
-            print("pluginParamCheck() with the index of the plugin as the")
-            print("args. For example:")
-            print("    pluginParamCheck(0)  # start listening to channel 1 on "
-                  "the channel rack")
-            print("    pluginParamCheck(1, 5)  # start listening slot 4 of "
-                  "track 1 on the mixer")
-            print("To listen for changes indefinitely, use the flag "
-                  "keep_alive=True in your call, for example:")
-            print("    pluginParamCheck(0, keep_alive=True)")
-            return ""
+    def __repr__(self) -> str:
+        """
+        Print in the repr instead of returning the string, since otherwise
+        we get yucky formatting in FL Studio.
+        """
+        print("[FL Param Checker]")
+        print("To start listening for parameter tweaks, call ")
+        print("pluginParamCheck() with the index of the plugin as the")
+        print("args. For example:")
+        print("    pluginParamCheck(0)  # start listening to channel 1 on "
+              "the channel rack")
+        print("    pluginParamCheck(1, 5)  # start listening slot 4 of "
+              "track 1 on the mixer")
+        print("To listen for changes indefinitely, use the flag "
+              "keep_alive=True in your call, for example:")
+        print("    pluginParamCheck(0, keep_alive=True)")
 
-    # Otherwise, start listening
-    t: 'tuple[int] | tuple[int, int]' = (
-        (index,)
-        if slot_index is None
-        else (index, slot_index)
-    )
-    # Check that the plugin actually exists
-    if not plugins.isValid(*t):
-        print(f"Can't check for parameter changes on plugin at index `{t}`")
-        print()
-        print("Please check that the a plugin exists at this index, and")
-        print("remember that FL Studio requires group indexes on the channel")
-        print("rack.")
-        print()
-        print("Note that audio clips are not valid plugins.")
-        print()
         return ""
 
-    # If we've already got a target, stop listening to that
-    if target is not None:
-        stopListening()
+    def __call__(
+        self,
+        index: "int | None" = None,
+        slot_index: "int | None" = None,
+        keep_alive: bool = False,
+    ):
+        """
+        Start a check for parameter indexes on the given plugin
+        """
+        global target, daemon
+        # If we're given no args, disable listening if possible
+        if index is None:
+            if target is not None:
+                print("[FL Param Checker]")
+                stopListening()
+                return ""
+            else:
+                return repr(self)
 
-    # Start listening to the new target
-    startListening(t, keep_alive)
-    return ""
+        print("[FL Param Checker]")
+        # Otherwise, start listening
+        t: 'tuple[int] | tuple[int, int]' = (
+            (index,)
+            if slot_index is None
+            else (index, slot_index)
+        )
+        # Check that the plugin actually exists
+        if not plugins.isValid(*t):
+            print(f"Can't check for parameter changes at index `{t}`")
+            print()
+            print("Please check that the a plugin exists at this index, and")
+            print("remember that FL Studio requires group indexes on the")
+            print("channel rack.")
+            print()
+            print("Note that audio clips are not valid plugins.")
+            print()
+            return ""
+
+        # If we've already got a target, stop listening to that
+        if target is not None:
+            stopListening()
+
+        # Start listening to the new target
+        startListening(t, keep_alive)
+        return ""
+
+
+pluginParamCheck = __PluginParamCheck()
 
 
 def idleCallback():
