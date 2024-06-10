@@ -18,7 +18,7 @@ To install this as a standalone script, use the following instructions.
 To include this code within your own script, use the following instructions.
 
 1. If you're using Git, add this as a git submodule.
-   `$ git submodule add git@github.com:MiguelGuthridge/fl_param_checker.git [output folder]/fl_param_checker`
+   `$ git submodule add git@github.com:MaddyGuthridge/fl_param_checker.git [output folder]/fl_param_checker`
 
    Otherwise, copy this entire folder into your code (make sure to include the
    LICENSE file).
@@ -52,6 +52,6 @@ it can be stopped by calling `pluginParamCheck()` with no arguments.
 ## Known Issues
 
 Closing FL Studio or reloading the script while it is listening for parameter
-tweaks will cause FL Studio to freeze. It eventually does start responding 
-again, but only after a minute or so depending on how long you've been 
+tweaks will cause FL Studio to freeze. It eventually does start responding
+again, but only after a minute or so depending on how long you've been
 listening for changes for.

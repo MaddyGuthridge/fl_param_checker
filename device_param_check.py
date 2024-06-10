@@ -10,7 +10,7 @@ Refer to README.md for usage.
 This code is free and open source under the MIT license. Refer to the LICENSE
 file for details.
 
-(c) 2022 Miguel Guthridge
+(c) 2022 Maddy Guthridge
 """
 
 __all__ = [
