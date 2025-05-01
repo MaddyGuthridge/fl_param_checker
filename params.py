@@ -13,7 +13,6 @@ file for details.
 
 import plugins
 
-
 # Target plugin
 target: 'tuple[int] | tuple[int, int] | None' = None
 
@@ -45,10 +44,7 @@ def startListening(t: "tuple[int] | tuple[int, int]", keep_alive: bool):
         user_name = plugins.getPluginName(track, slot, True)
     # If the user's name is the same, don't show it, otherwise, format it
     # nicely
-    if name == user_name:
-        user_name = ""
-    else:
-        user_name = f" ('{user_name}')"
+    user_name = "" if name == user_name else f" ('{user_name}')"
     print(f"Listening for parameter tweaks on '{name}'{user_name}...")
     if keep_alive:
         print("Listening indefinitely. Call pluginParamCheck() with no args to"
@@ -112,7 +108,7 @@ class __PluginParamCheck:
 
         print("[FL Param Checker]")
         # Otherwise, start listening
-        t: 'tuple[int] | tuple[int, int]' = (
+        t: 'tuple[int] | tuple[int, int]' = (  # noqa: UP037
             (index,)
             if slot_index is None
             else (index, slot_index)
